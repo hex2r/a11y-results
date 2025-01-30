@@ -77,7 +77,7 @@ export const TreeItem = styled.a`
     left: calc(-0.5rem - 1px);
     background: rgba(255, 0, 0, 0.25);
     border-top: 1px solid #ccc;
-    pointer-event: none;
+    pointer-events: none;
   }
 
   &[aria-expanded="true"]:before {
