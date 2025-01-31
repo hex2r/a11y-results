@@ -27,9 +27,19 @@ export default function useNavigationTree() {
         )
       : data;
 
+    console.dir(
+      destructureTreeObjectToTree(
+        data,
+        destructureDataToTreeObject(filteredData)
+      )
+    );
+
     // TODO: ts type issue
     setTreeData(
-      destructureTreeObjectToTree(destructureDataToTreeObject(filteredData))
+      destructureTreeObjectToTree(
+        data,
+        destructureDataToTreeObject(filteredData)
+      )
     );
   }, [data, filter]);
 

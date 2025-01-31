@@ -63,6 +63,12 @@ export const TreeItem = styled.a`
   text-decoration: none;
   border-radius: 0.25rem;
   border: 1px solid transparent;
+  align-items: center;
+
+  .issues {
+    color: indianred;
+    font-size: 0.875rem;
+  }
 
   &:hover {
     cursor: pointer;

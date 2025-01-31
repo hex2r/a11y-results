@@ -1,3 +1,4 @@
+import { ReportDataItem } from "../../Table/types";
 import type { TreeItem, TreeObject } from "../types";
 import { isObject, isEmpty } from "lodash-es";
 
@@ -21,6 +22,7 @@ function destructureToTreeObject({
     const currentPathLabel = splittedPathname[0];
     const nextPathname = splittedPathname.slice(1, splittedPathname.length);
     const hasNextPathname = nextPathname.length > 0;
+    const key = `${currentPathLabel}${__SEPARATOR__}${path}/${currentPathLabel}${__SEPARATOR__}`;
 
     if (!currentPathLabel) {
       return destructureToTreeObject({
@@ -31,14 +33,10 @@ function destructureToTreeObject({
       });
     }
 
-    if (
-      `${currentPathLabel}${__SEPARATOR__}${path}/${currentPathLabel}` in acc
-    ) {
+    if (key in acc) {
       return {
-        [`${currentPathLabel}${__SEPARATOR__}${path}/${currentPathLabel}`]: {
-          ...(acc[
-            `${currentPathLabel}${__SEPARATOR__}${path}/${currentPathLabel}`
-          ] as object),
+        [key]: {
+          ...(acc[key] as object),
           ...destructureToTreeObject({
             acc,
             url,
@@ -51,32 +49,36 @@ function destructureToTreeObject({
 
     return hasNextPathname
       ? {
-          [`${currentPathLabel}${__SEPARATOR__}${path}/${currentPathLabel}`]:
-            destructureToTreeObject({
-              acc,
-              url,
-              pathname: nextPathname.join("/"),
-              path: `${path}/${currentPathLabel}`,
-            }),
+          [key]: destructureToTreeObject({
+            acc,
+            url,
+            pathname: nextPathname.join("/"),
+            path: `${path}/${currentPathLabel}`,
+          }),
         }
       : ({
-          [`${currentPathLabel}${__SEPARATOR__}${path}/${currentPathLabel}`]:
-            url,
+          [key]: url,
         } satisfies TreeObject);
   } else return acc;
 }
 
 export function parseTreeItem(itemLabel: string) {
-  const [label, path] = itemLabel.split(__SEPARATOR__);
+  const [label, path, issues] = itemLabel.split(__SEPARATOR__);
 
   return {
     path,
     label,
+    issues,
   };
 }
 
+// Todo: move from here
+type Data = {
+  [url: string]: ReportDataItem[];
+};
+
 export function destructureDataToTreeObject(
-  data: TreeObject,
+  data: Data,
   root = "root"
 ): TreeObject {
   return {
@@ -96,6 +98,7 @@ export function destructureDataToTreeObject(
 }
 
 export function destructureTreeObjectToTree(
+  data: Data,
   treeObject: TreeObject
 ): TreeItem[] {
   return Object.entries(treeObject).reduce<TreeItem[]>(
@@ -106,8 +109,11 @@ export function destructureTreeObjectToTree(
           ...parseTreeItem(label),
           expanded: true,
           ...(isObject(children)
-            ? { children: destructureTreeObjectToTree(children) }
-            : { url: children }),
+            ? { children: destructureTreeObjectToTree(data, children) }
+            : {
+                url: children,
+                issues: data[children].length || 0,
+              }),
         } as TreeItem,
       ] as TreeItem[];
     },

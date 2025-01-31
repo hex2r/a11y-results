@@ -112,6 +112,7 @@ function TreeNavigationItem({
     <Styled.TreeListItem role="none">
       {url ? (
         <TreeNavigationLink
+          issues={item.issues || 0}
           ariaLabel={item.path}
           currentPage={currentPage}
           // Todo: use origin from .env
@@ -145,6 +146,7 @@ function TreeNavigationItem({
 
 type TreeNavigationLink = {
   url: string;
+  issues: number;
   ariaLabel: string;
   onSelectPage: (url: string) => void;
   currentPage: string;
@@ -152,6 +154,7 @@ type TreeNavigationLink = {
 
 function TreeNavigationLink({
   url,
+  issues,
   children,
   ariaLabel,
   currentPage,
@@ -178,7 +181,11 @@ function TreeNavigationLink({
       }
       onClick={handleClick}
     >
-      {children}
+      {/* Todo: make this prettier */}
+      <span>{children}</span>&nbsp;&nbsp;&nbsp;
+      <span className="issues" aria-label={`Found ${issues} issues`}>
+        {issues}&nbsp;𖢥
+      </span>
     </Styled.TreeItem>
   );
 }
