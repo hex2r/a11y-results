@@ -3,7 +3,7 @@ import useNavigationTree from "./hooks/useNavigationTree";
 import { Typography } from "../ui";
 
 export default function PrimaryTreeNavigation() {
-  const { treeData, isLoading, onSelectPage, currentPage } =
+  const { treeData, isLoading, onSelectPage, currentPage, onChange, onSubmit } =
     useNavigationTree();
 
   if (isLoading) {
@@ -19,6 +19,8 @@ export default function PrimaryTreeNavigation() {
       items={treeData}
       onSelectPage={onSelectPage}
       currentPage={currentPage}
+      onFilterChange={onChange}
+      onFilterSubmit={onSubmit}
     />
   );
 }

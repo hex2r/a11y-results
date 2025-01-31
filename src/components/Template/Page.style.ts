@@ -23,6 +23,7 @@ export const Content = styled.div`
   gap: 0.5rem;
   flex-grow: 1;
   overflow: hidden;
+  padding: 2px;
 `;
 
 export const Sidebar = styled.aside`

@@ -2,6 +2,12 @@ import { useState, PropsWithChildren } from "react";
 import DataContext from "./contexts/DataContext";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { data as dbData } from "../../db";
+// Todo  Resolve this dependency
+import { ReportDataItem } from "../components/Table/types";
+
+type Data = {
+  [url: string]: ReportDataItem[];
+};
 
 export default function DataProvider({ children }: PropsWithChildren) {
   const [currentPage, setCurrentPage] = useState<string>(
@@ -14,7 +20,7 @@ export default function DataProvider({ children }: PropsWithChildren) {
     queryFn: async () =>
       new Promise((resolve) =>
         setTimeout(() => {
-          resolve(dbData);
+          resolve(dbData as Data);
         }, 300)
       ),
     placeholderData: keepPreviousData,

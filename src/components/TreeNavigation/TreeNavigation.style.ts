@@ -1,6 +1,28 @@
 import styled from "@emotion/styled";
 
-export const TreeNavigation = styled.nav`
+export const TreeNavigation = styled.div`
+  display: flex;
+  flex-grow: 1;
+
+  > ul {
+    border-left: 0;
+    margin-left: 0;
+
+    > li {
+      padding-left: 0;
+
+      > [aria-expanded]:after {
+        display: none;
+      }
+    }
+  }
+`;
+
+export const TreeNavigationForm = styled.form`
+  width: 100%;
+`;
+
+export const TreeNavigationContent = styled.nav`
   > ul {
     border-left: 0;
     margin-left: 0;
@@ -44,12 +66,6 @@ export const TreeItem = styled.a`
 
   &:hover {
     cursor: pointer;
-  }
-
-  &:focus {
-    z-index: 2;
-    outline: none;
-    box-shadow: 0 0 0 2px rgb(0, 95, 204);
   }
 
   &,
@@ -96,6 +112,5 @@ export const TreeItem = styled.a`
 
   &[aria-current="page"] {
     border-color: #666;
-    background: #fff;
   }
 `;

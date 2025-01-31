@@ -4,11 +4,13 @@ import {
   destructDataToTreeObject,
   destructTreeObjectToTree,
 } from "../helpers/treeDestructionFunctions";
+import useFilteredTree from "./useFilteredTree";
 import { TreeItem } from "../types";
 
 export default function useNavigationTree() {
   const { data, isLoading, error, currentPage, onSelectPage } =
     useDataContext();
+  const { filter, input, onChange, onSubmit } = useFilteredTree(data);
   const [treeData, setTreeData] = useState<TreeItem[] | null>(null);
 
   useEffect(() => {
@@ -17,8 +19,19 @@ export default function useNavigationTree() {
       return;
     }
 
-    setTreeData(destructTreeObjectToTree(destructDataToTreeObject(data)));
-  }, [data]);
+    const filteredData = filter
+      ? Object.fromEntries(
+          Object.entries(data).filter(([url]) =>
+            new URL(url).pathname.toLowerCase().includes(filter.toLowerCase())
+          )
+        )
+      : data;
+
+    // TODO:
+    setTreeData(
+      destructTreeObjectToTree(destructDataToTreeObject(filteredData))
+    );
+  }, [data, filter]);
 
   return {
     treeData,
@@ -26,5 +39,8 @@ export default function useNavigationTree() {
     error,
     currentPage,
     onSelectPage,
+    input,
+    onChange,
+    onSubmit,
   };
 }

@@ -1,5 +1,5 @@
 import type { TreeItem, TreeObject } from "../types";
-import { isObject } from "lodash-es";
+import { isObject, isEmpty } from "lodash-es";
 
 /** Used to separate path and label */
 const __SEPARATOR__ = "__:__";
@@ -80,8 +80,8 @@ export function destructDataToTreeObject(
   root = "root"
 ): TreeObject {
   return {
-    [`${root}${__SEPARATOR__}${root}`]: Object.entries(data).reduce(
-      (acc, [url]) => {
+    [`${root}${isEmpty(data) ? " (empty)" : ""}${__SEPARATOR__}${root}`]:
+      Object.entries(data).reduce((acc, [url]) => {
         return {
           ...acc,
           ...destructToTreeObject({
@@ -91,9 +91,7 @@ export function destructDataToTreeObject(
             path: root,
           }),
         };
-      },
-      {}
-    ),
+      }, {}),
   };
 }
 

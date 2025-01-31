@@ -31,4 +31,13 @@ export const globalCSS = css`
     clip: rect(0, 0, 0, 0);
     border: 0;
   }
+
+  input:focus-visible,
+  a:focus-visible,
+  button:focus-visible,
+  [tabindex]:focus-visible {
+    z-index: 2;
+    outline: none;
+    box-shadow: 0 0 0 2px rgb(0, 95, 204);
+  }
 `;

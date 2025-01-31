@@ -4,3 +4,4 @@ export { Separator } from "./Separator";
 export { Panel } from "./Panel";
 export { Typography } from "./Typography";
 export { Error } from "./Error";
+export { InputField } from "./InputField";

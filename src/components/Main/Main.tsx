@@ -15,7 +15,7 @@ export default function Main() {
 
   return (
     <>
-      <Panel label={currentPage || "Page"}>
+      <Panel label={currentPage || "No page selected"}>
         {<Table isLoading={isLoading} data={data ? data[currentPage] : []} />}
       </Panel>
     </>

@@ -1,12 +1,24 @@
-import { useState, MouseEvent, PropsWithChildren } from "react";
+import {
+  useState,
+  MouseEvent,
+  PropsWithChildren,
+  ChangeEvent,
+  FormEvent,
+} from "react";
 import * as Styled from "./TreeNavigation.style";
 import type { TreeItem } from "./types";
+import { InputField, Grid, GridItem } from "../ui";
 
 type TreeNavigation = {
   items: TreeItem[];
-  role: "tree" | "group";
+  role?: "tree" | "group";
   onSelectPage: (url: string) => void;
   currentPage: string;
+};
+
+type FilteredTreeNavigation = {
+  onFilterSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  onFilterChange: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
 export default function TreeNavigation({
@@ -14,16 +26,45 @@ export default function TreeNavigation({
   onSelectPage,
   currentPage,
   role = "tree",
-}: TreeNavigation) {
+  onFilterChange,
+  onFilterSubmit,
+}: TreeNavigation & FilteredTreeNavigation) {
   return (
-    <Styled.TreeNavigation aria-label="Tree">
-      <BaseTreeNavigation
-        items={items}
-        onSelectPage={onSelectPage}
-        currentPage={currentPage}
-        role={role}
-      />
+    <Styled.TreeNavigation>
+      <Grid $flexDirection="column" $gap={1}>
+        <GridItem>
+          <FilterTree onChange={onFilterChange} onSubmit={onFilterSubmit} />
+        </GridItem>
+        <GridItem $flexDirection="column">
+          <Styled.TreeNavigationContent aria-label="Tree">
+            <BaseTreeNavigation
+              items={items}
+              onSelectPage={onSelectPage}
+              currentPage={currentPage}
+              role={role}
+            />
+          </Styled.TreeNavigationContent>
+        </GridItem>
+      </Grid>
     </Styled.TreeNavigation>
+  );
+}
+
+type FilterTree = {
+  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+};
+
+function FilterTree({ onSubmit, onChange }: FilterTree) {
+  return (
+    <Styled.TreeNavigationForm onSubmit={onSubmit}>
+      <InputField
+        type="text"
+        placeholder="Filter Tree..."
+        onChange={onChange}
+      />
+      <input type="submit" hidden />
+    </Styled.TreeNavigationForm>
   );
 }
 
@@ -81,13 +122,13 @@ function TreeNavigationItem({
         </TreeNavigationLink>
       ) : (
         <Styled.TreeItem
-          aria-label={item.path}
           as="button"
           role="treeitem"
+          aria-label={item.path}
           aria-expanded={hasChildren && isExpanded}
           onClick={toggleExpanded}
         >
-          <span>{label}</span>
+          {label}
         </Styled.TreeItem>
       )}
       {hasChildren && isExpanded && (

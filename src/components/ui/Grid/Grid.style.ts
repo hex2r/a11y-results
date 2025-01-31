@@ -38,6 +38,7 @@ export const Grid = styled.div<{
   ${({ $flexDirection }) =>
     $flexDirection === "column" ? `width: 100%;` : ""};
   flex-grow: 1;
+  box-sizing: border-box;
 
   ul& {
     list-style-type: none;

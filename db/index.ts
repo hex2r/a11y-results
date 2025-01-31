@@ -176,4 +176,4 @@ export const data = {
         "#BJrajb3MOdP > DIV:nth-child(1) > DIV:nth-child(1) > DIV:nth-child(2) > A:nth-child(2)",
     },
   ],
-} as const;
+};
