@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import useDataContext from "../../../providers/hooks/useDataContext";
 import {
-  destructDataToTreeObject,
-  destructTreeObjectToTree,
-} from "../helpers/treeDestructionFunctions";
+  destructureDataToTreeObject,
+  destructureTreeObjectToTree,
+} from "../helpers/treeDestructureFunctions";
 import useFilteredTree from "./useFilteredTree";
 import { TreeItem } from "../types";
 
@@ -27,9 +27,9 @@ export default function useNavigationTree() {
         )
       : data;
 
-    // TODO:
+    // TODO: ts type issue
     setTreeData(
-      destructTreeObjectToTree(destructDataToTreeObject(filteredData))
+      destructureTreeObjectToTree(destructureDataToTreeObject(filteredData))
     );
   }, [data, filter]);
 

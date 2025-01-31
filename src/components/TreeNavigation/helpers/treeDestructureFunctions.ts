@@ -4,7 +4,7 @@ import { isObject, isEmpty } from "lodash-es";
 /** Used to separate path and label */
 const __SEPARATOR__ = "__:__";
 
-function destructToTreeObject({
+function destructureToTreeObject({
   acc = { root: { empty: "#" } },
   url,
   pathname,
@@ -23,7 +23,7 @@ function destructToTreeObject({
     const hasNextPathname = nextPathname.length > 0;
 
     if (!currentPathLabel) {
-      return destructToTreeObject({
+      return destructureToTreeObject({
         acc,
         url,
         pathname: nextPathname.join("/"),
@@ -39,7 +39,7 @@ function destructToTreeObject({
           ...(acc[
             `${currentPathLabel}${__SEPARATOR__}${path}/${currentPathLabel}`
           ] as object),
-          ...destructToTreeObject({
+          ...destructureToTreeObject({
             acc,
             url,
             pathname: nextPathname.join("/"),
@@ -52,7 +52,7 @@ function destructToTreeObject({
     return hasNextPathname
       ? {
           [`${currentPathLabel}${__SEPARATOR__}${path}/${currentPathLabel}`]:
-            destructToTreeObject({
+            destructureToTreeObject({
               acc,
               url,
               pathname: nextPathname.join("/"),
@@ -75,7 +75,7 @@ export function parseTreeItem(itemLabel: string) {
   };
 }
 
-export function destructDataToTreeObject(
+export function destructureDataToTreeObject(
   data: TreeObject,
   root = "root"
 ): TreeObject {
@@ -84,7 +84,7 @@ export function destructDataToTreeObject(
       Object.entries(data).reduce((acc, [url]) => {
         return {
           ...acc,
-          ...destructToTreeObject({
+          ...destructureToTreeObject({
             acc,
             url,
             pathname: new URL(url).pathname,
@@ -95,7 +95,9 @@ export function destructDataToTreeObject(
   };
 }
 
-export function destructTreeObjectToTree(treeObject: TreeObject): TreeItem[] {
+export function destructureTreeObjectToTree(
+  treeObject: TreeObject
+): TreeItem[] {
   return Object.entries(treeObject).reduce<TreeItem[]>(
     (acc, [label, children]) => {
       return [
@@ -104,7 +106,7 @@ export function destructTreeObjectToTree(treeObject: TreeObject): TreeItem[] {
           ...parseTreeItem(label),
           expanded: true,
           ...(isObject(children)
-            ? { children: destructTreeObjectToTree(children) }
+            ? { children: destructureTreeObjectToTree(children) }
             : { url: children }),
         } as TreeItem,
       ] as TreeItem[];
