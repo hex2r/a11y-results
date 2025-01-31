@@ -4,9 +4,6 @@ export const Panel = styled.div`
   display: flex;
   flex-grow: 1;
   width: 100%;
-  outline: 1px solid #d9d9d9;
-  background-color: #fff;
-  border-radius: 0.5rem;
 `;
 
 export const PanelBody = styled.div`

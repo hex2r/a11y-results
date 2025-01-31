@@ -67,6 +67,10 @@ export const TreeItem = styled.a`
     overflow: hidden;
   }
 
+  &[aria-current]:before {
+    color: green;
+  }
+
   &:after {
     content: "";
     display: inline-block;

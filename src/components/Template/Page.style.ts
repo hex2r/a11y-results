@@ -30,6 +30,9 @@ export const Sidebar = styled.aside`
   width: 25rem;
   flex-basis: 25rem;
   flex: none;
+  outline: 1px solid #d9d9d9;
+  background-color: #fff;
+  border-radius: 0.5rem;
 `;
 
 export const Main = styled.main`
@@ -37,4 +40,7 @@ export const Main = styled.main`
   flex-grow: 1;
   flex-shrink: 1;
   overflow: hidden;
+  outline: 1px solid #d9d9d9;
+  background-color: #fff;
+  border-radius: 0.5rem;
 `;

@@ -9,7 +9,11 @@ export const columns = [
   {
     accessorKey: "type",
     header: "Type",
-    cell: (props) => <Typography tag="span">{props.getValue()}</Typography>,
+    cell: (props) => (
+      <Typography cropped tag="span">
+        {props.getValue()}
+      </Typography>
+    ),
   },
   {
     accessorKey: "component",

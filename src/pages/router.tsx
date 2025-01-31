@@ -1,12 +1,12 @@
 import { Routes, Route } from "react-router";
-import { NotFound } from "../components";
+import { Error } from "../components/ui";
 import Home from "./Home";
 
 function App() {
   return (
     <Routes>
       <Route index element={<Home />} />
-      <Route path="*" element={<NotFound />} />
+      <Route path="*" element={<Error message="Page is not found" />} />
     </Routes>
   );
 }
