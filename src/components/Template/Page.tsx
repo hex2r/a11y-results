@@ -11,6 +11,10 @@ export default function Page({ children }: PropsWithChildren) {
   return <Styled.Page>{children}</Styled.Page>;
 }
 
+Page.Header = function ({ children }: PropsWithChildren) {
+  return <Styled.Header>{children}</Styled.Header>;
+};
+
 Page.Content = function ({ children }: PropsWithChildren) {
   return (
     <Styled.ContentWrapper>

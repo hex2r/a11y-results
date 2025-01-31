@@ -10,6 +10,17 @@ export const Page = styled.div`
   gap: 1.5rem;
 `;
 
+export const Header = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  @media print {
+    display: none;
+  }
+`;
+
 export const ContentWrapper = styled.div`
   display: flex;
   flex-grow: 1;
@@ -34,6 +45,10 @@ export const Sidebar = styled.aside`
   outline: 1px solid #d9d9d9;
   background-color: #fff;
   border-radius: 0.5rem;
+
+  @media print {
+    display: none;
+  }
 `;
 
 export const Main = styled.main`

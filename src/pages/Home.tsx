@@ -15,8 +15,10 @@ function fallbackRender({ error, onReset }) {
 function Home() {
   return (
     <Page>
-      <Header />
-      <MetaBar />
+      <Page.Header>
+        <Header />
+        <MetaBar />
+      </Page.Header>
       <QueryClientProvider client={queryClient}>
         <ErrorBoundary fallbackRender={fallbackRender} onReset={reloadPage}>
           <DataProvider>
