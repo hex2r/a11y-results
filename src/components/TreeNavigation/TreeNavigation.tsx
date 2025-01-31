@@ -17,12 +17,14 @@ type TreeNavigation = {
 };
 
 type FilteredTreeNavigation = {
+  input: string;
   onFilterSubmit: (e: FormEvent<HTMLFormElement>) => void;
   onFilterChange: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
 export default function TreeNavigation({
   items = [],
+  input,
   onSelectPage,
   currentPage,
   role = "tree",
@@ -33,7 +35,11 @@ export default function TreeNavigation({
     <Styled.TreeNavigation>
       <Grid $flexDirection="column" $gap={1}>
         <GridItem>
-          <FilterTree onChange={onFilterChange} onSubmit={onFilterSubmit} />
+          <FilterTree
+            input={input}
+            onFilterChange={onFilterChange}
+            onFilterSubmit={onFilterSubmit}
+          />
         </GridItem>
         <GridItem $flexDirection="column">
           <Styled.TreeNavigationContent aria-label="Tree">
@@ -50,18 +56,18 @@ export default function TreeNavigation({
   );
 }
 
-type FilterTree = {
-  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-};
-
-function FilterTree({ onSubmit, onChange }: FilterTree) {
+function FilterTree({
+  input,
+  onFilterSubmit,
+  onFilterChange,
+}: FilteredTreeNavigation) {
   return (
-    <Styled.TreeNavigationForm onSubmit={onSubmit}>
+    <Styled.TreeNavigationForm onSubmit={onFilterSubmit}>
       <InputField
+        defaultValue={input}
         type="text"
         placeholder="Filter Tree..."
-        onChange={onChange}
+        onChange={onFilterChange}
       />
       <input type="submit" hidden />
     </Styled.TreeNavigationForm>
@@ -164,6 +170,7 @@ function TreeNavigationLink({
     e.preventDefault();
 
     history.pushState("/", "", url);
+    // Todo: create function
     onSelectPage(new URL(url).searchParams.get("q") || "");
   };
 
