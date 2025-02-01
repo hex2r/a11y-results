@@ -1,4 +1,4 @@
-import { useState, PropsWithChildren } from "react";
+import { useState, PropsWithChildren, useEffect } from "react";
 import DataContext from "./contexts/DataContext";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { data as dbData } from "../../db";
@@ -29,6 +29,10 @@ export default function DataProvider({ children }: PropsWithChildren) {
   const onSelectPage = (url: string) => {
     setCurrentPage(url);
   };
+
+  useEffect(() => {
+    if (error) throw error;
+  }, [error]);
 
   return (
     <DataContext.Provider

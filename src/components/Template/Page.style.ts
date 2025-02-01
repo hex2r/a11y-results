@@ -7,7 +7,6 @@ export const Page = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
 `;
 
 export const Header = styled.div`
@@ -24,6 +23,7 @@ export const Header = styled.div`
 export const ContentWrapper = styled.div`
   display: flex;
   flex-grow: 1;
+  padding-top: 1.5rem;
   padding-bottom: 1.5rem;
   overflow: hidden;
   box-sizing: border-box;

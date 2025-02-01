@@ -1,12 +1,16 @@
+import { useState } from "react";
 import {
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
+  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import * as Styled from "./Table.style";
 import { Typography } from "../ui";
 import { columns } from "./ReportTableColumns";
 import type { ReportDataItem } from "./types";
+import TableHeader from "./TableHeader";
 
 type ReportTable = {
   data: ReportDataItem[];
@@ -14,11 +18,19 @@ type ReportTable = {
 };
 
 export default function ReportTable({ data, isLoading }: ReportTable) {
+  const [columnFilters, setColumnFilters] = useState([]);
   const table = useReactTable({
     data,
     columns,
+    state: {
+      columnFilters,
+    },
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    columnResizeMode: "onChange",
   });
+
   const hasData = data && data.length > 0;
 
   if (isLoading) {
@@ -31,13 +43,18 @@ export default function ReportTable({ data, isLoading }: ReportTable) {
 
   return (
     <Styled.TableContainer>
-      <Styled.Table>
+      <Styled.Table style={{ width: table.getTotalSize() }}>
         <thead>
           {table.getHeaderGroups().map(({ id, headers }) => (
             <tr key={id}>
-              {headers.map(({ id, column }) => (
-                <Styled.Th key={id} scope="col">
-                  {column.columnDef.header}
+              {headers.map(({ id, column, getSize, getResizeHandler }) => (
+                <Styled.Th key={id} scope="col" style={{ width: getSize() }}>
+                  <TableHeader
+                    column={column}
+                    getResizeHandler={getResizeHandler}
+                    columnFilters={columnFilters}
+                    setColumnFilters={setColumnFilters}
+                  />
                 </Styled.Th>
               ))}
             </tr>
@@ -47,7 +64,7 @@ export default function ReportTable({ data, isLoading }: ReportTable) {
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>
               {row.getVisibleCells().map(({ id, column, getContext }) => (
-                <Styled.Td key={id}>
+                <Styled.Td key={id} style={{ width: column.getSize() }}>
                   {flexRender(column.columnDef.cell, getContext())}
                 </Styled.Td>
               ))}
