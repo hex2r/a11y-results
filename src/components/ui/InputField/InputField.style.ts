@@ -6,5 +6,6 @@ export const InputField = styled.input`
   padding: 0.5rem 1rem;
   box-sizing: border-box;
   border: 1px solid #ccc;
+  border-radius: 0.25rem;
   color: #333;
 `;
