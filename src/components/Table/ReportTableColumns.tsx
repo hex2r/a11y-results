@@ -11,7 +11,7 @@ export const columns = [
   {
     accessorKey: "type",
     header: "Type",
-    size: 220,
+    size: 260,
     cell: (props) => (
       <Typography cropped tag="span">
         {props.getValue()}
@@ -21,13 +21,13 @@ export const columns = [
   {
     accessorKey: "component",
     header: "Component",
-    size: 220,
+    size: 370,
     cell: (props) => <Typography tag="span">{props.getValue()}</Typography>,
   },
   {
     accessorKey: "selector",
     header: "Selector",
-    size: 230,
+    size: 370,
     cell: (props) => <Typography tag="span">{props.getValue()}</Typography>,
   },
 ];
