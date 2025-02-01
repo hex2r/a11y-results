@@ -36,6 +36,10 @@ export const Th = styled.th`
     cursor: col-resize;
     opacity: 0;
     user-select: none;
+
+    &:active {
+      opacity: 1;
+    }
   }
 `;
 

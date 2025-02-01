@@ -21,7 +21,6 @@ export default function TableFilters({
   return (
     <InputField
       placeholder={placeholder}
-      autoFocus={true}
       value={name}
       onChange={(e) => handleFilterChange(filterId, e.target.value)}
     />
